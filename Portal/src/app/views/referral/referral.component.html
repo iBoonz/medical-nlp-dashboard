@@ -1,0 +1,219 @@
+<!-- Intro -->
+<div class="card-body" *ngIf="currentstep === 'intro'">
+  <div class="card">
+    <form>
+      <div class="card-block p-4">
+        <p class="text-muted">Rare Disease Team</p>
+        <p>Welkom to the referal portal. With 3 simple screens you can submit a new referal </p>
+        <p>Click on the <strong>next </strong> below to start the process. </p>
+        <div class="row">
+            <div class="offset-md-10 col-md-2">
+                <button type="button" class="btn btn-block btn-primary" (click)="changeStep('caregiver')">Next</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- / End Intro -->
+
+<!-- Caregiver -->
+<div class="card-body" *ngIf="currentstep === 'caregiver'">
+  <div class="card">
+    <form #caregiverForm='ngForm' novalidate (ngSubmit)="savePatient(caregiverForm.valid,newUser)">
+      <div class="card-block p-4">
+        <p class="text-muted">First, can we have some basic information from you?</p>
+
+        <fieldset class="form-group">
+          <label>Name</label>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Name" [(ngModel)]="newUser.name" required name="name">
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Email</label>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="icon-user-follow"></i></span>
+            <input type="email" class="form-control" placeholder="email" [(ngModel)]="newUser.email" required
+              name="email">
+          </div>
+        </fieldset>
+
+        <div class="row">
+            <div class="offset-md-8 col-md-2">
+                <button type="button" class="btn btn-block btn-primary" (click)="changeStep('intro')">Previous</button>
+          </div>
+          <div class=" col-md-2">
+            <button type="submit" class="btn btn-block btn-primary" [disabled]="!caregiverForm.valid"
+              (click)="changeStep('patient')">Next</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- / End Caregiver -->
+
+<!-- Patient -->
+<div class="card-body" *ngIf="currentstep === 'patient'">
+  <div class="card">
+    <form #patientForm='ngForm' novalidate (ngSubmit)="savePatient(patientForm.valid,newPatient)">
+      <div class="card-block p-4">
+        <p class="text-muted">Now, we would like to know some basic information about the patient</p>
+
+        <fieldset class="form-group">
+          <label>Name</label>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Name" [(ngModel)]="newPatient.name" required
+              name="name">
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Gender</label>
+          <select class="form-control" id="gender" place [(ngModel)]="newPatient.gender" required name="gender">
+            <option value="0">Unknown</option>
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+          </select>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Language</label>
+          <select class="form-control" id="language" [(ngModel)]="newPatient.language" required name="language">
+            <option value="1">English</option>
+            <option value="2">Swedisch</option>
+            <option value="3">Dutch</option>
+            <option value="4">Arabic</option>
+          </select>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Date of Birth</label>
+          <div class="input-group mb-3">
+            <span class="input-group-addon"><i class="icon-calendar"></i>
+            </span>
+            <input type="text" name="dateOfBirth" class="form-control" [minDate]="minDate" [maxDate]="maxDate"
+              #dp="bsDatepicker" bsDatepicker [(bsValue)]="newUser.dateOfBirth" [(ngModel)]="newPatient.dateOfBirth">
+          </div>
+        </fieldset>
+
+
+        <fieldset class="form-group">
+          <label>NIHII</label>
+          <div class="input-group">
+            <input type="number" class="form-control" placeholder="Nihii" [(ngModel)]="newPatient.nihii" required
+              name="nihii">
+          </div>
+        </fieldset>
+
+        <fieldset class="form-group">
+          <label>Remarks</label>
+          <div class="input-group">
+            <textarea id="remarks" name="remarks" rows="9" [(ngModel)]="newPatient.remarks" class="form-control"
+              placeholder="Remarks.."></textarea>
+          </div>
+        </fieldset>
+
+        <div class="row">
+          <div class="offset-md-8 col-md-2">
+            <button type="button" class="btn btn-block btn-primary" (click)="changeStep('caregiver')">Previous</button>
+          </div>
+          <div class=" col-md-2">
+            <button type="button" class="btn btn-block btn-primary" [disabled]="!patientForm.valid"
+              (click)="changeStep('documents')">Next</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- / End Patient -->
+
+<!-- Document -->
+<div class="card-body" *ngIf="currentstep === 'documents'">
+  <div class="card">
+    <form #patientForm='ngForm' novalidate (ngSubmit)="savePatient(patientForm.valid,newUserModel)">
+      <div class="card-block p-4">
+        <p class="text-muted">Here you can upload all the relevant documents and/or images</p>
+        <div class="upload-box">
+          <div class="upload-box-content">
+            <div class="drop-container" ngFileDrop [options]="options" (uploadOutput)="onUploadOutput($event)"
+              [uploadInput]="uploadInput">
+              <p>
+                Drag files here or
+                <label class="upload-button">
+                  <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)"
+                    [uploadInput]="uploadInput" multiple> browse
+                </label>
+                to upload.
+              </p>
+            </div>
+            <div class="upload-item" *ngFor="let f of files; let i = index;">
+              <div class="upload-item-content">
+                <div class="filename">
+                  <div class="filename-left">
+                    <i class="ionicon ion-ios-copy"></i>
+                    <span>{{ f.name }}</span>
+                  </div>
+                  <div class="filename-right">
+                    <i class="ionicon ion-close-round" (click)="cancelUpload(f.id)"></i>
+                  </div>
+                </div>
+                <div class="progress-content">
+                  <div class="progress">
+                    <span class="bar" [style.width]="f?.progress?.data?.percentage + '%'"
+                      [class.is-done]="f?.progress?.data?.percentage === 100"></span>
+                  </div>
+                </div>
+                <div class="progress-text-content">
+                  <span class="progress-text" [class.is-done]="f?.progress?.data?.percentage === 100">
+                    <span>{{ f.progress?.data?.percentage }}% </span>
+                    <span *ngIf="f.progress?.data?.percentage !== 100">Uploading...</span>
+                    <span *ngIf="f.progress?.data?.percentage === 100">Done</span>
+                  </span>
+                  <span class="speed-and-eta-text"
+                    *ngIf="f.progress?.data?.percentage !== 0 && f.progress?.data?.percentage !== 100">
+                    <span>{{ f.progress?.data?.speedHuman }} </span>
+                    <span>ETA {{ f.progress?.data?.etaHuman }}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="offset-md-8 col-md-2">
+                <button type="button" class="btn btn-block btn-primary" (click)="changeStep('patient')">Previous</button>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-block btn-primary" (click)="startUpload()">Next</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- / End Documents -->
+
+
+<!-- Final -->
+<div class="card-body" *ngIf="currentstep === 'final'">
+  <div class="card">
+    <form>
+      <div class="card-block p-4">
+        <p class="text-muted">All Done!</p>
+        <p> Thank you, your documents have been uploaded. We will contact you as soon as we can provide feedback</p>
+        <div class="row">
+          <div class="offset-md-10 col-md-2">
+            <button type="button" class="btn btn-block btn-primary" (click)="changeStep('intro')">New Referral</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- /Final-->
+

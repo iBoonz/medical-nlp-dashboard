@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Medical NLP Dashboard</title>
+  <style>
+    #loader {
+      position: absolute;
+      width: 8rem;
+      height: 8rem;
+      top: calc(50% - 4rem);
+      left: calc(50% - 4rem);
+      background-color: #162731;
+    }
+
+    .letterj {
+      animation: hideshow-letters 1.5s ease infinite;
+      fill: #FFFFFF;
+      opacity: 0;
+    }
+
+    .letterf {
+      animation: hideshow-letters 1.5s 0.5s ease infinite;
+      fill: #FFFFFF;
+      opacity: 0;
+    }
+
+    .letterk {
+      animation: hideshow-letters 1.5s 1s ease infinite;
+      fill: #FFFFFF;
+      opacity: 0;
+    }
+
+    .files {
+      fill: #FFFFFF;
+      animation: files-letters 3s 1.5s ease infinite;
+      opacity: 0;
+    }
+
+    .lupa {
+      fill: #FFFFFF;
+    }
+
+    @keyframes hideshow-letters {
+      0% {
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      80% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes files-letters {
+      0% {
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body style="margin: 0; background-color: #162731;">
+  <div id="app">
+    <div id="loader">
+
+    </div>
+  </div>
+</body>
+
+</html>
